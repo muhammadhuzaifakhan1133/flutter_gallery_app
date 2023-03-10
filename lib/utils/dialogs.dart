@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-errorDialog({required String message}) {
+class Dialogs {
+  static errorDialog({required String message}) {
   Get.dialog(AlertDialog(
     title: const Text("Error"),
     content: Text(message),
@@ -13,4 +14,5 @@ errorDialog({required String message}) {
           child: const Text("Ok"))
     ],
   ));
+}
 }

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class AlbumsController extends GetxController {
   bool isDatafetch = false;
   List<AlbumModel> albums = [];
+  bool isGridView = false;
   final AlbumServices _albumServices = AlbumServices();
 
   @override

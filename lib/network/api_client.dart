@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:gallery_app/ui/widgets/error_dialog.dart';
+import 'package:gallery_app/utils/dialogs.dart';
 import 'package:http/http.dart' as http;
 import 'package:gallery_app/utils/api_constants.dart';
 
@@ -10,7 +10,7 @@ class ApiClient {
     if (res.statusCode >= 200 && res.statusCode < 300) {
       return jsonDecode(res.body);
     } else {
-      errorDialog(message: res.body);
+      Dialogs.errorDialog(message: res.body);
     }
   }
 

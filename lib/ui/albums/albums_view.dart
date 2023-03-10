@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gallery_app/ui/albums/albums_controller.dart';
+import 'package:gallery_app/ui/albums/widgets/album_appbar.dart';
+import 'package:gallery_app/ui/albums/widgets/album_container.dart';
 import 'package:get/get.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class AlbumsView extends StatelessWidget {
+  const AlbumsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,48 +14,22 @@ class HomeView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
               backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                elevation: 0,
-                title: const Text('Albums',
-                    style: TextStyle(color: Colors.white, fontSize: 24)),
-              ),
-              drawer: const Drawer(),
+              appBar: albumAppbar(controller),
               body: controller.isDatafetch
-                  ? ListView.builder(
-                      itemCount: controller.albums.length,
+                  ? GridView.count(
+                      crossAxisCount: controller.isGridView ? 2 : 1,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      shrinkWrap: true,
+                      childAspectRatio: controller.isGridView ? 1 : 2,
+                      physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.all(15),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            controller.navigateToAlbumPhotosView(
-                                controller.albums[index]);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            padding: const EdgeInsets.all(10),
-                            height: 200,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        "assets/images/album_bg.jpg"),
-                                    fit: BoxFit.fill),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(controller.albums[index].title,
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 24)),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    )
+                      children: List.generate(
+                        controller.albums.length,
+                        (index) {
+                          return albumContainer(controller, index);
+                        },
+                      ))
                   : const Center(child: CircularProgressIndicator()));
         });
   }
